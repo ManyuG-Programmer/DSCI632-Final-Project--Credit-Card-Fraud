@@ -1,0 +1,115 @@
+# Uncomment this section if you are using a dsci641 package.
+# [build-system]
+# requires = ["uv_build ~=0.8"]
+# build-backend = "uv_build"
+
+[project]
+name = "DSCI641"
+# Version bumped as we update dependencies
+# VERSION 3, Apr. 27, 2026
+version = "2026.04.3"
+description = "Example code for Drexel University DSCI 641"
+authors = [{ name = "Michael Ekstrand", email = "mdekstrand@drexel.edu" }]
+# readme = "README.md"
+requires-python = ">=3.12.5"
+dependencies = [
+  # core data processing dependencies
+  "numpy ~=2.0",
+  "pandas ~=2.0",
+  "pyarrow >=18",
+  "duckdb>=1.4.2",
+  # LensKit — will enable later
+  "lenskit ~=2026.1",
+  # analysis and reporting
+  "notebook >=7.3",
+  "ipykernel >=6",
+  "seaborn ~=0.13.2",
+  "humanize~=4.10",
+  "ipywidgets ~=8.1",
+  # script libraries
+  "docopt-ng >=0.9",
+  "zstandard >=0.23",
+  "pyprojroot ~=0.3.0",
+  "plotnine>=0.15.3",
+  "kagglehub[pandas-datasets] ~=0.3",
+  "docopt>=0.6.2",
+  "xgboost >=2.0",
+  "scikit-learn >=1.5",
+  "pyyaml >=6.0",
+]
+
+[dependency-groups]
+dev = [
+  "ruff >=0.4",
+]
+pipeline = [
+  "dvc[webdav] ~=3.0",
+  "jupytext ~=1.16",
+  "nbconvert[webpdf] ~=7.16",
+  "jsonnet >=0.20",
+]
+cpu = [
+  "torch ~=2.5",
+]
+gpu = [
+  "torch ~=2.5",
+]
+
+# support both CPU and GPU environmetn specifications
+[project.optional-dependencies]
+# Ray-based parallelism
+ray = [
+  "lenskit[ray] ~= 2026.1"
+]
+# full Jupyter installation
+jupyter = [
+  # "juptyerlab >=4.3",
+  "notebook ~=7.3",
+  "ipywidgets ~=8.1",
+]
+# marimo reactive notebook
+marimo = [
+  "marimo>=0.23.0",
+  "sqlglot>=30.4.2",
+]
+
+[tool.uv]
+conflicts = [
+  [
+    { group = "cpu" },
+    { group = "gpu" },
+  ],
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", group = "cpu" },
+  { index = "pytorch-cuda", group = "gpu" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu/"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu126/"
+explicit = true
+
+[tool.uv.build-backend]
+module-name = "dsci641"
+module-root = "."
+
+# code formatting and linting tools
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+unfixable = ["F401"]
+exclude = [".git", "__pycache__", "build", "dist", ".pixi", ".venv"]
+
+[tool.pyright]
+exclude = [".pixi", ".venv"]

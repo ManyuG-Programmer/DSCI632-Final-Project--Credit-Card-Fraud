@@ -1,0 +1,17 @@
+# =============================================================
+# Data — never commit raw or processed data files
+# =============================================================
+Data/
+data/
+*.csv
+*.parquet
+*.arrow
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.db
+*.sqlite
+*.duckdb
+

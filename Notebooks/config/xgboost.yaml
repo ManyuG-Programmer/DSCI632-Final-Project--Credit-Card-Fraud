@@ -1,0 +1,10 @@
+mode: tuning
+test_size: 0.2
+random_state: 433567
+
+grid:
+  n_estimators: [300, 600, 1500]
+  max_depth: [3, 6, 15]
+  learning_rate: [0.01, 0.05, 0.1]
+  scale_pos_weight: [100]
+cv_folds: 5
